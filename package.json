@@ -1,0 +1,22 @@
+{
+  "name": "2.0",
+  "version": "1.0.0",
+  "description": "Este proyecto consiste en una **tienda de ropa deportiva** desarrollada en **Node.js con Express** y **MySQL** como base de datos.  \r El sistema permite gestionar productos, categorías, clientes, ventas y carritos de compra.  \r La base de datos fue diseñada en **MySQL Workbench (.mwb)** y exportada a un script `.sql` para su instalación.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-myconnection": "^1.0.4",
+    "morgan": "^1.10.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
