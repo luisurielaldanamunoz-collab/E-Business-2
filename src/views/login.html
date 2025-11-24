@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Athlos Sport Club</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="card login-card">
+      <h2 class="title">Athlos Sport Club</h2>
+      <p class="subtitle">Inicia sesión para continuar</p>
+
+      <form id="loginForm">
+        <input type="email" name="correo" placeholder="Correo electrónico" required />
+        <input type="password" name="password" placeholder="Contraseña" required />
+
+        <button type="submit" class="btn">Ingresar</button>
+      </form>
+
+      <p class="register-text">
+        ¿Eres nuevo? <a href="/registro">Crear cuenta</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(e.target));
+
+      const res = await fetch("/login-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+    
+
+      if (result.success) {
+        window.location.href = result.redirect;
+      }
+    });
+  </script>
+</body>
+</html>

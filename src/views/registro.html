@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro | Athlos Sport Club</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="card login-card">
+      <h2 class="title">Crear Cuenta</h2>
+      <p class="subtitle">Regístrate para continuar</p>
+
+      <form id="registerForm">
+        <input type="text" name="nombre" placeholder="Nombre completo" required />
+        <input type="email" name="correo" placeholder="Correo electrónico" required />
+        <input type="password" name="password" placeholder="Contraseña" required />
+
+        <button type="submit" class="btn">Registrarme</button>
+      </form>
+
+      <p class="register-text">
+        ¿Ya tienes cuenta? <a href="/login">Iniciar sesión</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(e.target));
+
+      const res = await fetch("/register-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      
+
+      if (result.success) {
+        window.location.href = "/login";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* ===============================
+   Estilos para Clientes (CRUD)
+   Athlos Sport Club
+================================= */
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Encabezado principal */
+h1 {
+  color: #0057b8;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Tarjetas y formularios */
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #0057b8;
+  border: none;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #004494;
+}
+
+.btn-danger {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-warning {
+  border-radius: 8px;
+  color: white;
+  background-color: #ffc107;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+/* Tabla de clientes */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #0057b8;
+  color: white;
+}
+
+tbody tr:hover {
+  background-color: #f1f5ff;
+}
+
+/* Formulario */
+#clienteForm input {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  transition: border 0.2s ease;
+}
+
+#clienteForm input:focus {
+  border-color: #0057b8;
+  box-shadow: 0 0 4px rgba(0, 87, 184, 0.3);
+}
+
+/* Títulos */
+h4 {
+  color: #0057b8;
+  font-weight: 600;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 50px;
+  padding: 20px 0;
+}

@@ -1,85 +1,149 @@
-#  Proyecto E-BUSINESS – Tienda de Ropa Deportiva
+Proyecto Athlos Sport Club – Tienda de Ropa Deportiva
+Descripción del proyecto
 
-##  Descripción del proyecto
-Este proyecto consiste en una **tienda de ropa deportiva** desarrollada en **Node.js con Express** y **MySQL** como base de datos.  
-El sistema permite gestionar productos, categorías, clientes, ventas y carritos de compra.  
-La base de datos fue diseñada en **MySQL Workbench (.mwb)** y exportada a un script `.sql` para su instalación.
+Este proyecto consiste en una tienda de ropa deportiva desarrollada en Node.js con Express y MySQL como base de datos.
+Incluye módulos para gestión de usuarios, clientes, productos, categorías, subcategorías, ventas y panel administrativo.
+La base de datos fue modelada en MySQL Workbench (.mwb) y exportada como script .sql.
 
-
-
-##  Requisitos previos
+Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-- [XAMPP](https://www.apachefriends.org/) (para usar Apache y MySQL)
-- [Node.js](https://nodejs.org/)
-- [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) (opcional, para ver el diseño visual)
-- Visual Studio Code o cualquier editor de texto
+XAMPP (para Apache y MySQL)
+https://www.apachefriends.org/
 
+Node.js
+https://nodejs.org/
 
-##  Creación de la base de datos
+MySQL Workbench (opcional, para visualizar el modelo ER)
+https://dev.mysql.com/downloads/workbench/
 
-### Opción 1: Desde phpMyAdmin
-1. Abre **XAMPP Control Panel** y asegúrate de que **MySQL** esté iniciado (verde).
-2. Entra a: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
-3. Haz clic en “Importar”.
-4. Selecciona el archivo `db/dbs7a25.sql`.
-5. Presiona **Continuar**.
-6. Se crearán automáticamente las tablas:
-   - `usuarios`
-   - `clientes`
-   - `productos`
-   - `categorias`
-   - `carrito`
-   - `ventas`
-   - `proveedores`
-   - `envios`
-   - `reseñas`
-   - `inventario`
-   - `bitacora`
-   
+Editor de código como Visual Studio Code
 
-### Opción 2: Desde MySQL Workbench
-1. Abre **Workbench** → `File → Open Model`
-2. Carga el archivo `db/dbs7a25.mwb`
-3. Verifica las relaciones visuales.
-4. Haz clic en **Database → Forward Engineer**
-5. Selecciona tu conexión local (`root@localhost`)
-6. Da clic en **Execute** para generar toda la base automáticamente.
+Creación de la base de datos
+Opción 1: Desde phpMyAdmin
 
+Abre XAMPP Control Panel y asegúrate de que MySQL esté iniciado.
 
+Accede a:
+http://localhost/phpmyadmin
 
-##  Instalación de módulos necesarios
+Selecciona la pestaña "Importar".
 
-Ejecuta los siguientes comandos desde la carpeta del proyecto:
+Carga el archivo:
+db/athlos.sql
 
-```bash
-# Inicializar el proyecto (si aún no se ha hecho)
+Haz clic en "Continuar".
+
+Se crearán automáticamente las tablas:
+
+usuarios
+
+clientes
+
+productos
+
+categorias
+
+subcategorias
+
+carrito
+
+ventas
+
+proveedores
+
+envios
+
+reseñas
+
+inventario
+
+bitacora
+
+Opción 2: Desde MySQL Workbench
+
+Abre MySQL Workbench → File → Open Model.
+
+Selecciona el archivo:
+db/athlos.mwb
+
+Verifica el diagrama ER.
+
+Selecciona Database → Forward Engineer.
+
+Elige tu conexión local.
+
+Haz clic en "Execute".
+
+Instalación del proyecto
+
+Ejecuta los siguientes comandos en la terminal dentro de la carpeta del proyecto:
+
 npm init -y
-
-# Instalar dependencias principales
 npm install express mysql express-myconnection
-
-# Instalar dependencia para desarrollo (reinicia el servidor automáticamente)
 npm install --save-dev nodemon
 
-npx nodemon src/app.js
+Ejecución del servidor
+npx nodemon src/app_athlos.js
 
 
----
+El servidor iniciará en:
 
-## Creación de la base de datos y usuario MySQL
+http://localhost:8080
 
-### 1. Crear la base de datos
-Abre tu consola de MySQL desde XAMPP (botón **Shell** o usando **cmd**):
+Creación del usuario MySQL (opcional)
 
-```bash
-mysql -u root -p
+Ejecutar en la consola de MySQL:
 
 CREATE USER 'luis'@'localhost' IDENTIFIED BY '123';
-GRANT ALL PRIVILEGES ON dbs7a25.* TO 'luis'@'localhost';
+GRANT ALL PRIVILEGES ON athlos.* TO 'luis'@'localhost';
 FLUSH PRIVILEGES;
 
+Estructura del proyecto
+/src
+ ├── controllers/
+ ├── views/
+ │   ├── css/
+ │   ├── js/
+ │   ├── admin.html
+ │   ├── dashboard.html
+ │   ├── clientes.html
+ │   ├── productos.html
+ │   ├── usuarios.html
+ │   ├── login.html
+ │   ├── registro.html
+ │   ├── vista-usuario.html
+ │
+ ├── app_athlos.js
 
-###Link de GitHub
+/db
+ ├── athlos.sql
+ ├── athlos.mwb
+
+Funcionalidades incluidas
+Panel de administración
+
+Login del administrador
+
+Gestión de clientes (CRUD)
+
+Gestión de usuarios (CRUD)
+
+Gestión de productos por categoría y subcategoría
+
+Vista general de administración
+
+Vista del usuario
+
+Registro de usuario
+
+Inicio de sesión
+
+Perfil de usuario
+
+Vista básica del panel de usuario
+
+Enlace al repositorio
+
 https://github.com/luisurielaldanamunoz-collab/E-Business-2.git

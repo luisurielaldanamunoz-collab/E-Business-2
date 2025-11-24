@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Athlos Sport Club</title>
+
+    <!-- Estilos originales -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2 class="brand">
+            <span style="font-size: 22px;">🏋️‍♂️ Athlos</span>
+            <span style="color: #ffd700;">Sport Club</span>
+        </h2>
+
+        <a href="/admin" class="logout-btn">Cerrar sesión</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="title">Panel de Administración</h1>
+        <p class="subtitle">Selecciona una sección para administrar.</p>
+
+        <div class="cards">
+            
+            <!-- CLIENTES -->
+            <div class="card">
+                <h3>Clientes</h3>
+                <p>Gestiona los registros de clientes.</p>
+                <a href="/clientes-page" class="btn btn-primary">Ver</a>
+            </div>
+
+            <!-- PRODUCTOS -->
+            <div class="card">
+                <h3>Productos</h3>
+                <p>Control del inventario de productos.</p>
+                <a href="/productos" class="btn">Ver</a>
+            </div>
+
+            <!-- VENTAS -->
+            <div class="card">
+                <h3>Ventas</h3>
+                <p>Consulta y gestiona las ventas realizadas.</p>
+                <button class="btn btn-warning">Próximamente</button>
+            </div>
+
+            <!-- USUARIOS -->
+            <div class="card">
+                <h3>Usuarios</h3>
+                <p>Gestión de usuarios registrados en la plataforma.</p>
+                <a href="/usuarios" class="btn btn-primary">Ver</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Athlos Sport Club — Panel de Administración
+    </footer>
+
+</body>
+</html>
