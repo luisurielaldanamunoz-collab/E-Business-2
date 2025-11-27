@@ -1,65 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuario | Athlos Sport Club</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Usuario | Athlos Sport Club</title>
     <link rel="stylesheet" href="css/vista-usuario.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <!-- NAVBAR -->
     <nav class="navbar">
-        <h2 class="brand">Athlos Sport Club</h2>
-        <ul class="menu">
+        <div class="logo">🏋️‍♂️Athlos Sport Club</div>
+        <ul class="nav-links">
             <li><a href="/vista-usuario">Inicio</a></li>
             <li><a href="#perfil">Mi Perfil</a></li>
-            <li><a href="#pedidos">Mis Pedidos</a></li>
-            <li><a href="/login" class="logout">Cerrar sesión</a></li>
-
+            <li><a href="#catalogo">Catálogo</a></li>
+            <li><a href="#">Mis Pedidos</a></li>
+            <li><a href="/login">Cerrar sesión</a></li>
         </ul>
     </nav>
 
-    <!-- CONTENEDOR PRINCIPAL -->
-    <div class="container">
+    <main class="container">
 
-        <!-- TARJETA DEL PERFIL -->
-        <section id="perfil" class="card profile-card">
-            <h3>Mi Perfil</h3>
-            <p><strong>Nombre:</strong> <span id="userNombre">Cargando...</span></p>
-            <p><strong>Correo:</strong> <span id="userCorreo">Cargando...</span></p>
-            <p><strong>Fecha de Registro:</strong> <span id="userFecha">Cargando...</span></p>
+        <!-- PERFIL DE USUARIO -->
+        <section id="perfil" class="card">
+            <h2>Mi Perfil</h2>
+
+            <p><strong>Nombre:</strong> <span id="userNombre"></span></p>
+            <p><strong>Correo:</strong> <span id="userCorreo"></span></p>
+            <p><strong>Fecha de Registro:</strong> <span id="userFecha"></span></p>
         </section>
 
-        <!-- SECCIÓN DE BIENVENIDA -->
-        <section class="card welcome-card">
+        <!-- BIENVENIDA -->
+        <section class="card">
             <h2>Bienvenido a tu panel de usuario</h2>
             <p>Aquí podrás ver tu información personal, tu historial de pedidos y administrar tus datos dentro del sistema.</p>
         </section>
 
-        <!-- HISTORIAL DE PEDIDOS (dummy por ahora) -->
-        <section id="pedidos" class="card pedidos-card">
-            <h3>Mis Pedidos</h3>
-            <p>Aún no tienes pedidos registrados.</p>
+        <!-- CATÁLOGO DE PRODUCTOS -->
+        <section id="catalogo" class="card catalogo-section">
+            <h2>Catálogo de Productos</h2>
+
+            <!-- Filtros -->
+            <div class="filtros">
+                <select id="filtroCategoria" class="form-select">
+                    <option value="">Todas las categorías</option>
+                </select>
+
+                <select id="filtroSubcategoria" class="form-select">
+                    <option value="">Todas las subcategorías</option>
+                </select>
+            </div>
+
+            <!-- LISTA DE PRODUCTOS -->
+            <div id="listaProductos" class="grid-productos"></div>
         </section>
 
-    </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="js/catalogo.js"></script>
 
     <script>
-        // Obtener datos del usuario desde el servidor
+        // Cargar datos del usuario
         fetch("/api/user-info")
             .then(res => res.json())
             .then(data => {
-                document.getElementById("userNombre").innerText = data.nombre;
-                document.getElementById("userCorreo").innerText = data.correo;
-                document.getElementById("userFecha").innerText = data.fecha_registro;
-            })
-            .catch(() => {
-                document.getElementById("userNombre").innerText = "Error";
-                document.getElementById("userCorreo").innerText = "Error";
-                document.getElementById("userFecha").innerText = "Error";
+                document.getElementById("userNombre").textContent = data.nombre;
+                document.getElementById("userCorreo").textContent = data.correo;
+                document.getElementById("userFecha").textContent = data.fecha_registro;
             });
     </script>
 

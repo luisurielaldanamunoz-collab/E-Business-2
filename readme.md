@@ -1,41 +1,62 @@
-Proyecto Athlos Sport Club – Tienda de Ropa Deportiva
-Descripción del proyecto
+🔥PROYECTO ATHLOS SPORT CLUB – Tienda de Ropa Deportiva
 
-Este proyecto consiste en una tienda de ropa deportiva desarrollada en Node.js con Express y MySQL como base de datos.
-Incluye módulos para gestión de usuarios, clientes, productos, categorías, subcategorías, ventas y panel administrativo.
-La base de datos fue modelada en MySQL Workbench (.mwb) y exportada como script .sql.
+Plataforma web desarrollada en Node.js, Express y MySQL, diseñada para gestionar una tienda de ropa deportiva con panel administrativo, gestión de productos y una vista de usuario con catálogo dinámico.
 
-Requisitos previos
+Incluye módulos para:
 
-Antes de comenzar, asegúrate de tener instalado lo siguiente:
+Gestión de usuarios
 
-XAMPP (para Apache y MySQL)
+Gestión de clientes
+
+Gestión de productos
+
+Categorías y subcategorías
+
+Proveedores
+
+Inventario
+
+Ventas (estructura lista)
+
+Vista de usuario con catálogo
+
+La base de datos está modelada en MySQL Workbench (.mwb) y exportada como script .sql para su fácil instalación.
+
+📦 Requisitos Previos
+
+Asegúrate de tener instalado:
+
+✔ XAMPP (para MySQL y Apache)
+
 https://www.apachefriends.org/
 
-Node.js
+✔ Node.js
+
 https://nodejs.org/
 
-MySQL Workbench (opcional, para visualizar el modelo ER)
+✔ MySQL Workbench (opcional, para visualizar el modelo ER)
+
 https://dev.mysql.com/downloads/workbench/
 
-Editor de código como Visual Studio Code
+✔ Visual Studio Code u otro editor
+🗄️ Creación de la Base de Datos
+📌 Opción 1: Desde phpMyAdmin
 
-Creación de la base de datos
-Opción 1: Desde phpMyAdmin
+Abre XAMPP Control Panel y activa MySQL.
 
-Abre XAMPP Control Panel y asegúrate de que MySQL esté iniciado.
-
-Accede a:
+Entra a:
 http://localhost/phpmyadmin
 
-Selecciona la pestaña "Importar".
+Ve a Importar.
 
 Carga el archivo:
-db/athlos.sql
 
-Haz clic en "Continuar".
+/db/athlos.sql
 
-Se crearán automáticamente las tablas:
+
+Clic en Continuar.
+
+Se crearán las tablas:
 
 usuarios
 
@@ -61,55 +82,54 @@ inventario
 
 bitacora
 
-Opción 2: Desde MySQL Workbench
+📌 Opción 2: Desde MySQL Workbench
 
-Abre MySQL Workbench → File → Open Model.
+Abrir Workbench → File → Open Model
 
-Selecciona el archivo:
-db/athlos.mwb
+Cargar:
 
-Verifica el diagrama ER.
+/db/athlos.mwb
 
-Selecciona Database → Forward Engineer.
 
-Elige tu conexión local.
+Database → Forward Engineer
 
-Haz clic en "Execute".
+Seleccionar la conexión local
 
-Instalación del proyecto
+Ejecutar
 
-Ejecuta los siguientes comandos en la terminal dentro de la carpeta del proyecto:
+⚙️ Instalación del Proyecto
+
+En la terminal dentro del proyecto:
 
 npm init -y
 npm install express mysql express-myconnection
 npm install --save-dev nodemon
 
-Ejecución del servidor
-npx nodemon src/app_athlos.js
+▶️ Ejecución del Servidor
+npx nodemon app_athlos.js
 
 
-El servidor iniciará en:
+Servidor disponible en:
+👉 http://localhost:8080
 
-http://localhost:8080
-
-Creación del usuario MySQL (opcional)
-
-Ejecutar en la consola de MySQL:
-
+🔐 Creación del Usuario MySQL (opcional)
 CREATE USER 'luis'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON athlos.* TO 'luis'@'localhost';
 FLUSH PRIVILEGES;
 
-Estructura del proyecto
+📂 Estructura del Proyecto
 /src
- ├── controllers/
+ ├── controllers/        (no usado actualmente)
  ├── views/
  │   ├── css/
+ │   │     └── vista-usuario.css
  │   ├── js/
+ │   │     ├── productos.js
+ │   │     └── catalogo.js   ← NUEVO
  │   ├── admin.html
  │   ├── dashboard.html
  │   ├── clientes.html
- │   ├── productos.html
+ │   ├── productos-crud.html
  │   ├── usuarios.html
  │   ├── login.html
  │   ├── registro.html
@@ -121,29 +141,107 @@ Estructura del proyecto
  ├── athlos.sql
  ├── athlos.mwb
 
-Funcionalidades incluidas
-Panel de administración
+🚀 Funcionalidades del Proyecto
+🧑‍💻 Panel de Administración
+✔ Login del administrador
+✔ Gestión de clientes (CRUD completo)
+✔ Gestión de usuarios (CRUD completo)
+✔ Gestión de productos
 
-Login del administrador
+Categorías
 
-Gestión de clientes (CRUD)
+Subcategorías
 
-Gestión de usuarios (CRUD)
+Imágenes
 
-Gestión de productos por categoría y subcategoría
+Proveedores
 
-Vista general de administración
+Inventario
+
+Edición y eliminación
+
+Vista en tabla
+
+✔ Dashboard administrativo general
+👤 Vista del Usuario
+✔ Registro de usuario
+✔ Inicio de sesión
+✔ Perfil con:
+
+Nombre
+
+Correo
+
+Fecha de registro
+
+✔ Catálogo dinámico de productos (NUEVO)
+
+Obtiene productos desde el backend
+
+Filtrado por categoría
+
+Hombre
+
+Mujer
+
+Accesorios
+
+Filtrado por subcategorías
+
+Playeras, Shorts, Pants
+
+Blusas Deportivas, Tops
+
+Accesorios (sin subcategorías)
+
+Vista en tarjetas con imagen, descripción y precio
+
+Se actualiza automáticamente cuando se agrega o edita un producto desde el panel admin
+
+✔ Panel de usuario con navegación
+🆕 Nuevas Funciones Implementadas
+
+Estas funciones fueron agregadas en esta versión:
+
+⭐ Catálogo de productos totalmente dinámico
+
+Construido con catalogo.js
+
+Se conecta a /api/productos
+
+Filtrado inteligente por categorías
+
+Filtrado inteligente por subcategorías
+
+Accesorios sin subcategorías
+
+Diseño tipo tienda real
+
+⭐ Actualización automática
+
+Todo producto nuevo o editado en el CRUD aparece automáticamente en:
 
 Vista del usuario
 
-Registro de usuario
+Catálogo
 
-Inicio de sesión
+Filtros
 
-Perfil de usuario
+⭐ Mejoras de integridad en MySQL
 
-Vista básica del panel de usuario
+id_subcategoria agregado a productos
 
-Enlace al repositorio
+id_proveedor con FK válida
+
+Guardado sin errores
+
+🔗 Repositorio
 
 https://github.com/luisurielaldanamunoz-collab/E-Business-2.git
+
+Si quieres, puedo también agregarte:
+
+✨ Capturas de pantalla
+✨ Diagrama ER en el README
+✨ Video de funcionamiento
+✨ Badges (Node.js, MySQL, Express)

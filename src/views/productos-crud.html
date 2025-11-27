@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Productos | Athlos Sport Club</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/clientes.css">
+
+    <style>
+        .preview-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/dashboard">🏋️‍♂️Athlos Sport Club</a>
+
+        <div class="d-flex">
+            <a href="/dashboard" class="btn btn-light btn-sm">Volver al Panel</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+
+    <h2 class="text-center text-primary mb-4">Gestión de Productos</h2>
+
+    <!-- FORMULARIO -->
+    <div class="card p-4 shadow mb-4">
+        <h4 class="text-primary">Agregar / Editar Producto</h4>
+
+        <form id="formProducto" class="row g-3">
+
+            <!-- Necesario para editar -->
+            <input type="hidden" id="productoId">
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Nombre</label>
+                <input type="text" id="nombre" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Precio</label>
+                <input type="number" id="precio" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Stock</label>
+                <input type="number" id="stock" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Categoría</label>
+                <select id="categoria" class="form-control" required></select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Subcategoría</label>
+                <select id="subcategoria" class="form-control"></select>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Descripción</label>
+                <textarea id="descripcion" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Imagen (desde carpeta /img)</label>
+                <select id="imagen" class="form-control"></select>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <img id="preview" class="preview-img" src="" alt="Vista previa">
+            </div>
+
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary px-4">Guardar Producto</button>
+                <button type="button" class="btn btn-secondary ms-2" onclick="limpiarFormulario()">Limpiar</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card p-3 shadow">
+        <h4 class="text-primary">Productos Registrados</h4>
+
+        <table class="table table-striped text-center" id="tablaProductos">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Subcategoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="/js/productos.js"></script>
+
+</body>
+</html>
