@@ -1,3 +1,4 @@
+/* ======== GENERAL ======== */
 body {
     font-family: 'Poppins', sans-serif;
     background: #f3f5f7;
@@ -48,29 +49,11 @@ body {
     font-weight: 600;
 }
 
-/* ============================= */
-/* CATÁLOGO */
-/* ============================= */
-.catalogo-section {
-    margin-top: 40px;
-}
-
-.filtros {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    flex: 1;
-}
+/* ======== CATÁLOGO ======== */
 
 .grid-productos {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 
@@ -94,8 +77,65 @@ body {
     border-radius: 10px;
 }
 
-.precio {
-    color: #007bff;
-    font-size: 18px;
+.btn-agregar {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.cantidad-input {
+    width: 50px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* ======== CARRITO ======== */
+
+.carrito-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.carrito-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.carrito-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.subtotal {
+    font-size: 1.2rem;
     font-weight: bold;
+}
+
+.btn-delete {
+    background: #e63946;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.pagar-btn {
+    background: #28a745;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1.1rem;
 }

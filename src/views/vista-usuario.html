@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panel de Usuario | Athlos Sport Club</title>
-    <link rel="stylesheet" href="css/vista-usuario.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <link rel="stylesheet" href="/css/vista-usuario.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">🏋️‍♂️Athlos Sport Club</div>
+    <!-- NAVBAR CORRECTO -->
+    <header class="navbar">
+        <span class="logo">🏋️ Athlos Sport Club</span>
+
         <ul class="nav-links">
             <li><a href="/vista-usuario">Inicio</a></li>
-            <li><a href="#perfil">Mi Perfil</a></li>
-            <li><a href="#catalogo">Catálogo</a></li>
-            <li><a href="#">Mis Pedidos</a></li>
+            <li><a href="#perfil-section">Mi Perfil</a></li>
+            <li><a href="#catalogo-section">Catálogo</a></li>
+            <li><a href="#carrito-section">Mi Carrito</a></li>
             <li><a href="/login">Cerrar sesión</a></li>
         </ul>
-    </nav>
+    </header>
 
     <main class="container">
 
-        <!-- PERFIL DE USUARIO -->
-        <section id="perfil" class="card">
+        <!-- ================= PERFIL ================= -->
+        <section id="perfil-section" class="card">
             <h2>Mi Perfil</h2>
 
             <p><strong>Nombre:</strong> <span id="userNombre"></span></p>
@@ -33,46 +33,54 @@
             <p><strong>Fecha de Registro:</strong> <span id="userFecha"></span></p>
         </section>
 
-        <!-- BIENVENIDA -->
-        <section class="card">
-            <h2>Bienvenido a tu panel de usuario</h2>
-            <p>Aquí podrás ver tu información personal, tu historial de pedidos y administrar tus datos dentro del sistema.</p>
-        </section>
+        <!-- =============== CATÁLOGO =============== -->
+        <section id="catalogo-section" class="card">
 
-        <!-- CATÁLOGO DE PRODUCTOS -->
-        <section id="catalogo" class="card catalogo-section">
             <h2>Catálogo de Productos</h2>
 
-            <!-- Filtros -->
-            <div class="filtros">
-                <select id="filtroCategoria" class="form-select">
-                    <option value="">Todas las categorías</option>
-                </select>
+            <select id="filtroCategoria"></select>
+            <select id="filtroSubcategoria"></select>
 
-                <select id="filtroSubcategoria" class="form-select">
-                    <option value="">Todas las subcategorías</option>
-                </select>
-            </div>
-
-            <!-- LISTA DE PRODUCTOS -->
+            <!-- CORREGIDO: CLASE QUE SÍ EXISTE EN EL CSS -->
             <div id="listaProductos" class="grid-productos"></div>
         </section>
 
+        <!-- ================= CARRO ================= -->
+        <section id="carrito-section" class="card">
+
+            <h2>🛒 Mi Carrito</h2>
+
+            <!-- CORREGIDO: CLASE QUE SÍ EXISTE -->
+            <div id="carritoLista" class="carrito-grid"></div>
+
+            <div class="carrito-total">
+                <h3>Total: <span id="carritoTotal">$0</span></h3>
+                <button class="pagar-btn" onclick="finalizarCompra()">Finalizar compra</button>
+            </div>
+        </section>
+
+
     </main>
 
-    <!-- SCRIPTS -->
-    <script src="js/catalogo.js"></script>
+    <!-- =============== ARCHIVOS JS =============== -->
+    <script src="/js/catalogo.js"></script>
+    <script src="/js/carrito.js"></script>
 
-    <script>
-        // Cargar datos del usuario
-        fetch("/api/user-info")
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById("userNombre").textContent = data.nombre;
-                document.getElementById("userCorreo").textContent = data.correo;
-                document.getElementById("userFecha").textContent = data.fecha_registro;
-            });
-    </script>
+    <!-- ========== CARGAR USUARIO Y CARRITO ========== -->
+<script>
+    fetch("/api/user-info")
+        .then(res => res.json())
+        .then(data => {
+            window.usuarioId = data.id;
+
+            document.getElementById("userNombre").textContent = data.nombre;
+            document.getElementById("userCorreo").textContent = data.correo;
+            document.getElementById("userFecha").textContent = data.fecha_registro;
+
+            cargarCarrito();
+        });
+</script>
+
 
 </body>
 </html>

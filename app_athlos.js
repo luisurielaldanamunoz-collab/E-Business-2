@@ -20,7 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 // =============================
 // 📁 SERVIR ARCHIVOS ESTÁTICOS (CORREGIDO)
 // =============================
-// Esta era la parte que causaba el error de /vista-usuario
 app.use(express.static(path.join(__dirname, 'src', 'views')));
 app.use('/img', express.static(path.join(__dirname, 'src', 'views', 'img')));
 app.use('/js', express.static(path.join(__dirname, 'src', 'views', 'js')));
@@ -140,7 +139,6 @@ app.get("/api/subcategorias/:id_categoria", (req, res) => {
 // =============================
 // 🧩 API PRODUCTOS (CRUD Completo)
 // =============================
-
 app.get("/api/productos", (req, res) => {
   req.getConnection((err, conn) => {
     if (err) return res.json({ error: true });
@@ -177,8 +175,8 @@ app.post("/api/productos", (req, res) => {
     stock,
     id_categoria,
     id_subcategoria,
-    id_proveedor: 1,               // obligatorio
-    fecha_creacion: new Date(),    // obligatorio
+    id_proveedor: 1,
+    fecha_creacion: new Date(),
     imagen
   };
 
@@ -195,7 +193,6 @@ app.post("/api/productos", (req, res) => {
     });
   });
 });
-
 
 app.put("/api/productos/:id", (req, res) => {
   const { id } = req.params;
@@ -374,7 +371,6 @@ app.get('/api/user-info', (req, res) => {
 
 // =============================
 // CRUD USUARIOS (ADMIN)
-// =============================
 app.get('/usuarios', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'views', 'usuarios.html'));
 });
@@ -422,6 +418,254 @@ app.delete('/api/usuarios/:id', (req, res) => {
       res.json({ message: "Usuario eliminado" });
     });
   });
+});
+
+// ===================================================
+// 🚀 CRUD VENTAS (AJUSTADO PARA REGISTRO AUTOMÁTICO DEL CLIENTE)
+// ===================================================
+
+// Página del CRUD
+app.get("/ventas", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "views", "ventas.html"));
+});
+
+// Obtener todas las ventas
+app.get("/api/ventas", (req, res) => {
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    conn.query(
+      `SELECT ventas.*, 
+        usuarios.nombre AS usuario,
+        usuarios.correo AS correo_usuario
+       FROM ventas
+       INNER JOIN usuarios ON ventas.id_usuario = usuarios.id`,
+      (err, rows) => {
+        if (err) return res.json({ error: err });
+        res.json(rows);
+      }
+    );
+  });
+});
+
+// Obtener venta por ID
+app.get("/api/ventas/:id", (req, res) => {
+  const { id } = req.params;
+
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    conn.query("SELECT * FROM ventas WHERE id = ?", [id], (err, rows) => {
+      if (err) return res.json({ error: err });
+      res.json(rows[0]);
+    });
+  });
+});
+
+// Crear venta — AUTOMÁTICO (usuario logeado = cliente)
+app.post("/api/ventas", (req, res) => {
+  const data = req.body;
+
+  // ⭐ si no llega id_cliente lo asignamos igual al usuario
+  if (!data.id_cliente) data.id_cliente = data.id_usuario;
+
+  
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    // 1️⃣ Insertar venta
+    conn.query("INSERT INTO ventas SET ?", data, (err) => {
+      if (err) return res.json({ error: err });
+
+      // 2️⃣ Convertir al usuario en cliente automáticamente
+      conn.query(
+        "UPDATE usuarios SET es_cliente = 1 WHERE id = ?",
+        [data.id_usuario],
+        (err) => {
+          if (err) return res.json({ error: err });
+
+          return res.json({ success: true });
+        }
+      );
+    });
+  });
+});
+
+// Actualizar venta
+app.put("/api/ventas/:id", (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    conn.query(
+      "UPDATE ventas SET ? WHERE id = ?",
+      [data, id],
+      (err) => {
+        if (err) return res.json({ error: err });
+        res.json({ success: true });
+      }
+    );
+  });
+});
+
+// Eliminar venta
+app.delete("/api/ventas/:id", (req, res) => {
+  const { id } = req.params;
+
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    conn.query("DELETE FROM ventas WHERE id = ?", [id], (err) => {
+      if (err) return res.json({ error: err });
+      res.json({ success: true });
+    });
+  });
+});
+
+
+// ===================================================
+// 🛒 CARRITO (AGREGADO SIN TOCAR NADA MÁS)
+// ===================================================
+// 🔥 NUEVA RUTA (necesaria para que el frontend funcione)
+// Obtener carrito por ID de usuario (lo que pide catalogo.js y carrito.js)
+app.get("/api/carrito/:id_usuario", (req, res) => {
+  const id_usuario = req.params.id_usuario;
+
+  req.getConnection((err, conn) => {
+    if (err) return res.json([]);
+
+    conn.query(
+      `SELECT carrito.id, carrito.cantidad,
+              productos.nombre, productos.precio, productos.imagen
+       FROM carrito
+       INNER JOIN productos ON productos.id = carrito.id_producto
+       WHERE carrito.id_usuario = ?`,
+      [id_usuario],
+      (err, rows) => {
+        if (err) return res.json([]);
+        res.json(rows);
+      }
+    );
+  });
+});
+
+// Obtener carrito del usuario logueado
+app.get("/api/carrito", (req, res) => {
+  if (!currentUserId) return res.json([]);
+
+  req.getConnection((err, conn) => {
+    conn.query(
+      `SELECT carrito.*, 
+              productos.nombre,
+              productos.precio,
+              productos.imagen
+       FROM carrito
+       INNER JOIN productos ON carrito.id_producto = productos.id
+       WHERE carrito.id_usuario = ?`,
+      [currentUserId],
+      (err, rows) => res.json(rows)
+    );
+  });
+});
+
+// Agregar producto al carrito
+app.post("/api/carrito", (req, res) => {
+  const { id_producto, cantidad } = req.body;
+
+  if (!currentUserId)
+    return res.json({ success: false, message: "Usuario no logueado" });
+
+  req.getConnection((err, conn) => {
+    conn.query(
+      "INSERT INTO carrito SET ?",
+      { id_usuario: currentUserId, id_producto, cantidad },
+      () => res.json({ success: true })
+    );
+  });
+});
+
+// Eliminar producto del carrito
+app.delete("/api/carrito/:id", (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query("DELETE FROM carrito WHERE id = ?", [req.params.id], () => {
+      res.json({ success: true });
+    });
+  });
+});
+// Eliminar producto del carrito (lo que usa el frontend)
+app.delete("/api/carrito/item/:id_item", (req, res) => {
+
+  const id_item = req.params.id_item;
+
+  req.getConnection((err, conn) => {
+    if (err) return res.json({ error: err });
+
+    conn.query("DELETE FROM carrito WHERE id = ?", [id_item], (err) => {
+      if (err) return res.json({ error: err });
+      res.json({ success: true });
+    });
+  });
+
+});
+
+// Finalizar compra (crear venta + vaciar carrito)
+app.post("/api/carrito/comprar", (req, res) => {
+  if (!currentUserId)
+    return res.json({ success: false, message: "Usuario no logueado" });
+
+  req.getConnection((err, conn) => {
+    // Obtener carrito
+    conn.query(
+      `SELECT carrito.*, productos.precio 
+       FROM carrito
+       INNER JOIN productos ON carrito.id_producto = productos.id
+       WHERE carrito.id_usuario = ?`,
+      [currentUserId],
+      (err, items) => {
+        if (!items.length) return res.json({ success: false, message: "Carrito vacío" });
+
+        // Calcular total
+        const total = items.reduce(
+          (sum, i) => sum + i.precio * i.cantidad,
+          0
+        );
+
+        // Registrar venta
+        conn.query(
+          "INSERT INTO ventas SET ?",
+          { id_usuario: currentUserId, id_cliente: currentUserId, total },
+          () => {
+            // Convertir en cliente
+            conn.query("UPDATE usuarios SET es_cliente = 1 WHERE id = ?", [currentUserId]);
+
+            // Vaciar carrito
+            conn.query("DELETE FROM carrito WHERE id_usuario = ?", [currentUserId]);
+
+            res.json({ success: true });
+          }
+        );
+      }
+    );
+  });
+});
+
+app.get("/api/producto-simple/:id", (req, res) => {
+    const { id } = req.params;
+
+    req.getConnection((err, conn) => {
+        if (err) return res.json({ error: err });
+
+        conn.query(
+            "SELECT id, nombre, precio FROM productos WHERE id = ?",
+            [id],
+            (err, rows) => {
+                if (err) return res.json({ error: err });
+                res.json(rows[0]);
+            }
+        );
+    });
 });
 
 // =============================

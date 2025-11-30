@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     cargarCategorias();
     cargarProductos();
+    cargarCarrito(); // 🔥 cargar carrito al inicio
 
-    document.getElementById("filtroCategoria").addEventListener("change", cargarSubcategorias);
-    document.getElementById("filtroCategoria").addEventListener("change", cargarProductos);
+    document.getElementById("filtroCategoria").addEventListener("change", () => {
+        cargarSubcategorias();
+        cargarProductos();
+    });
+
     document.getElementById("filtroSubcategoria").addEventListener("change", cargarProductos);
+
 });
 
 // =========================
@@ -30,19 +35,16 @@ function cargarSubcategorias() {
     const categoria = document.getElementById("filtroCategoria").value;
     const select = document.getElementById("filtroSubcategoria");
 
-    // ⭐ Accesorios (id_categoria = 3) NO tiene subcategorías
     if (categoria === "3") {
         select.innerHTML = `<option value="">Todas las subcategorías</option>`;
         return;
     }
 
-    // Si no selecciona categoría → reset
     if (!categoria) {
         select.innerHTML = `<option value="">Todas las subcategorías</option>`;
         return;
     }
 
-    // Cargar subcategorías normales
     fetch(`/api/subcategorias/${categoria}`)
         .then(res => res.json())
         .then(data => {
@@ -65,19 +67,14 @@ function cargarProductos() {
         .then(data => {
             let productos = data;
 
-            // Filtrar por categoría
             if (categoria) {
                 productos = productos.filter(p => p.id_categoria == categoria);
             }
 
-            // Filtrar por subcategoría SOLO si no es Accesorios (id = 3)
-            if (categoria !== "3") {
-                if (subcategoria) {
-                    productos = productos.filter(p => p.id_subcategoria == subcategoria);
-                }
+            if (categoria !== "3" && subcategoria) {
+                productos = productos.filter(p => p.id_subcategoria == subcategoria);
             }
 
-            // Renderizar
             const contenedor = document.getElementById("listaProductos");
             contenedor.innerHTML = "";
 
@@ -88,8 +85,114 @@ function cargarProductos() {
                         <h4>${p.nombre}</h4>
                         <p>${p.descripcion}</p>
                         <span class="precio">$${p.precio}</span>
+
+                        <label>Cantidad:</label>
+                        <input type="number" id="cantidad_${p.id}" value="1" min="1" class="cantidad-input">
+
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${p.id}, ${p.precio})">
+                            Agregar al carrito
+                        </button>
                     </div>
                 `;
             });
         });
 }
+
+// =========================
+// AGREGAR AL CARRITO
+// =========================
+function agregarAlCarrito(idProducto, precio) {
+    const inputCantidad = document.getElementById(`cantidad_${idProducto}`);
+    const cantidad = parseInt(inputCantidad.value);
+
+    if (cantidad <= 0) {
+        alert("La cantidad debe ser mayor a 0");
+        return;
+    }
+
+    fetch("/api/carrito", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id_usuario: window.usuarioId,
+            id_producto: idProducto,
+            cantidad
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            cargarCarrito();
+        });
+}
+
+// =========================
+// MOSTRAR CARRITO EN LA VISTA
+// ⚠️ RENOMBRADO PARA EVITAR CONFLICTO
+// =========================
+function cargarCarritoCatalogo() {
+    fetch(`/api/carrito/${window.usuarioId}`)
+        .then(res => res.json())
+        .then(items => {
+            let html = "";
+            let total = 0;
+
+            items.forEach(i => {
+                const subtotal = i.cantidad * i.precio;
+                total += subtotal;
+
+                html += `
+                    <p>${i.nombre} (x${i.cantidad}) $${subtotal}</p>
+                `;
+            });
+
+            if (document.getElementById("carritoItems")) {
+                document.getElementById("carritoItems").innerHTML = html || "Carrito vacío";
+            }
+            if (document.getElementById("totalCarrito")) {
+                document.getElementById("totalCarrito").innerText = "$" + total;
+            }
+        });
+}
+
+
+// =========================
+// FINALIZAR COMPRA
+// =========================
+function finalizarCompra() {
+
+    fetch(`/api/carrito/${window.usuarioId}`)
+        .then(res => res.json())
+        .then(items => {
+
+            if (items.length === 0) {
+                alert("Carrito vacío");
+                return;
+            }
+
+            let total = 0;
+            items.forEach(i => {
+                total += i.cantidad * i.precio;
+            });
+
+            // Insertar venta
+            fetch("/api/ventas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id_usuario: window.usuarioId,
+                    id_cliente: window.usuarioId,
+                    total
+                })
+            })
+            .then(res => res.json())
+            .then(() => {
+
+                alert("Compra realizada con éxito");
+
+                // Vaciar carrito
+                fetch(`/api/carrito/${window.usuarioId}`, { method: "DELETE" })
+                    .then(() => cargarCarrito());
+            });
+        });
+}
+

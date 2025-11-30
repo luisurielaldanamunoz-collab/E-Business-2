@@ -1,131 +1,108 @@
-🔥PROYECTO ATHLOS SPORT CLUB – Tienda de Ropa Deportiva
+# 🔥 PROYECTO ATHLOS SPORT CLUB – Tienda de Ropa Deportiva
 
-Plataforma web desarrollada en Node.js, Express y MySQL, diseñada para gestionar una tienda de ropa deportiva con panel administrativo, gestión de productos y una vista de usuario con catálogo dinámico.
+Plataforma web desarrollada en **Node.js, Express y MySQL**, diseñada para gestionar una **tienda de ropa deportiva**, con:
 
-Incluye módulos para:
+- Panel administrativo completo  
+- Gestión de productos, clientes y usuarios  
+- Vista del usuario con catálogo dinámico  
+- Carrito de compras totalmente funcional  
+- Finalización de compra con registro de ventas  
 
-Gestión de usuarios
+La base de datos está modelada en **MySQL Workbench (.mwb)** y exportada como **script .sql** para su instalación inmediata.
 
-Gestión de clientes
+---
 
-Gestión de productos
-
-Categorías y subcategorías
-
-Proveedores
-
-Inventario
-
-Ventas (estructura lista)
-
-Vista de usuario con catálogo
-
-La base de datos está modelada en MySQL Workbench (.mwb) y exportada como script .sql para su fácil instalación.
-
-📦 Requisitos Previos
+## 📦 Requisitos Previos
 
 Asegúrate de tener instalado:
 
-✔ XAMPP (para MySQL y Apache)
-
+✔ **XAMPP** (MySQL + Apache)  
 https://www.apachefriends.org/
 
-✔ Node.js
-
+✔ **Node.js**  
 https://nodejs.org/
 
-✔ MySQL Workbench (opcional, para visualizar el modelo ER)
-
+✔ **MySQL Workbench** (opcional)  
 https://dev.mysql.com/downloads/workbench/
 
-✔ Visual Studio Code u otro editor
-🗄️ Creación de la Base de Datos
-📌 Opción 1: Desde phpMyAdmin
+✔ **Visual Studio Code**  
 
-Abre XAMPP Control Panel y activa MySQL.
+---
 
-Entra a:
-http://localhost/phpmyadmin
+## 🗄️ Creación de la Base de Datos
 
-Ve a Importar.
-
-Carga el archivo:
-
+### 📌 Opción 1: phpMyAdmin  
+1. Abrir XAMPP → Activar MySQL  
+2. Entrar a: http://localhost/phpmyadmin  
+3. Ir a **Importar**  
+4. Cargar el archivo:  
 /db/athlos.sql
 
-
-Clic en Continuar.
+markdown
+Copiar código
+5. Clic en **Continuar**  
 
 Se crearán las tablas:
 
-usuarios
+- usuarios  
+- clientes  
+- productos  
+- categorias  
+- subcategorias  
+- carrito  
+- ventas  
+- proveedores  
+- envios  
+- reseñas  
+- inventario  
+- bitacora  
 
-clientes
+---
 
-productos
-
-categorias
-
-subcategorias
-
-carrito
-
-ventas
-
-proveedores
-
-envios
-
-reseñas
-
-inventario
-
-bitacora
-
-📌 Opción 2: Desde MySQL Workbench
-
-Abrir Workbench → File → Open Model
-
-Cargar:
-
+### 📌 Opción 2: MySQL Workbench  
+1. Workbench → File → **Open Model**  
+2. Abrir:
 /db/athlos.mwb
 
+yaml
+Copiar código
+3. Database → **Forward Engineer**  
+4. Ejecutar  
 
-Database → Forward Engineer
+---
 
-Seleccionar la conexión local
-
-Ejecutar
-
-⚙️ Instalación del Proyecto
+## ⚙️ Instalación del Proyecto
 
 En la terminal dentro del proyecto:
 
+```bash
 npm init -y
 npm install express mysql express-myconnection
 npm install --save-dev nodemon
-
 ▶️ Ejecución del Servidor
+bash
+Copiar código
 npx nodemon app_athlos.js
-
-
 Servidor disponible en:
 👉 http://localhost:8080
 
-🔐 Creación del Usuario MySQL (opcional)
+🔐 Usuario MySQL (opcional)
+sql
+Copiar código
 CREATE USER 'luis'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON athlos.* TO 'luis'@'localhost';
 FLUSH PRIVILEGES;
-
 📂 Estructura del Proyecto
+pgsql
+Copiar código
 /src
- ├── controllers/        (no usado actualmente)
  ├── views/
  │   ├── css/
  │   │     └── vista-usuario.css
  │   ├── js/
  │   │     ├── productos.js
- │   │     └── catalogo.js   ← NUEVO
+ │   │     ├── catalogo.js
+ │   │     ├── carrito.js
  │   ├── admin.html
  │   ├── dashboard.html
  │   ├── clientes.html
@@ -136,112 +113,99 @@ FLUSH PRIVILEGES;
  │   ├── vista-usuario.html
  │
  ├── app_athlos.js
-
 /db
  ├── athlos.sql
  ├── athlos.mwb
-
 🚀 Funcionalidades del Proyecto
 🧑‍💻 Panel de Administración
-✔ Login del administrador
-✔ Gestión de clientes (CRUD completo)
-✔ Gestión de usuarios (CRUD completo)
-✔ Gestión de productos
-
+✔ Login seguro del administrador
+✔ Gestión de clientes (CRUD)
+✔ Gestión de usuarios (CRUD)
+✔ Gestión de productos con:
 Categorías
 
 Subcategorías
-
-Imágenes
 
 Proveedores
 
 Inventario
 
+Imágenes
+
 Edición y eliminación
 
-Vista en tabla
+Tabla interactiva
 
 ✔ Dashboard administrativo general
 👤 Vista del Usuario
 ✔ Registro de usuario
 ✔ Inicio de sesión
 ✔ Perfil con:
-
 Nombre
 
 Correo
 
 Fecha de registro
 
-✔ Catálogo dinámico de productos (NUEVO)
+✔ Navegación interna
+✔ Catálogo dinámico 100% conectado al backend
+✔ Filtros por:
+Categorías
 
-Obtiene productos desde el backend
+Subcategorías
 
-Filtrado por categoría
+✔ Productos en tarjetas con:
+Imagen
 
-Hombre
+Descripción
 
-Mujer
+Precio
 
-Accesorios
+Actualización automática si se agregan o editan productos en el panel admin.
 
-Filtrado por subcategorías
+🛒 Carrito de Compras (FUNCIONAL)
+Incluye:
 
-Playeras, Shorts, Pants
+✔ Añadir productos al carrito
+✔ Aumentar o disminuir cantidad (desde catálogo)
+✔ Mostrar carrito en tiempo real
+✔ Eliminar productos del carrito
+✔ Total dinámico
+✔ Guardado por usuario en la BD
+✔ Finalizar compra
+Inserta una venta real en la tabla ventas y vacía el carrito después.
 
-Blusas Deportivas, Tops
-
-Accesorios (sin subcategorías)
-
-Vista en tarjetas con imagen, descripción y precio
-
-Se actualiza automáticamente cuando se agrega o edita un producto desde el panel admin
-
-✔ Panel de usuario con navegación
-🆕 Nuevas Funciones Implementadas
-
-Estas funciones fueron agregadas en esta versión:
-
-⭐ Catálogo de productos totalmente dinámico
-
+🛠️ Funciones Técnicas Implementadas
+⭐ Catálogo completamente dinámico
 Construido con catalogo.js
 
 Se conecta a /api/productos
 
-Filtrado inteligente por categorías
+Filtrado inteligente
 
-Filtrado inteligente por subcategorías
+Subcategorías incluidas
 
-Accesorios sin subcategorías
+Compatible con imágenes de productos
 
 Diseño tipo tienda real
 
-⭐ Actualización automática
+⭐ Integración del carrito (carrito.js)
+Manejo de carrito desde la BD
 
-Todo producto nuevo o editado en el CRUD aparece automáticamente en:
+GET /api/carrito/:id_usuario
 
-Vista del usuario
+DELETE /api/carrito/item/:id
 
-Catálogo
+Finalizar compra conectada a POST /api/ventas
 
-Filtros
+⭐ Optimización en la BD
+Relación id_subcategoria incluida
 
-⭐ Mejoras de integridad en MySQL
+Proveedores conectados con FK
 
-id_subcategoria agregado a productos
+Inventario integrado
 
-id_proveedor con FK válida
-
-Guardado sin errores
+Modelo listo para escalar
 
 🔗 Repositorio
-
 https://github.com/luisurielaldanamunoz-collab/E-Business-2.git
-
-Si quieres, puedo también agregarte:
-
-✨ Capturas de pantalla
-✨ Diagrama ER en el README
-✨ Video de funcionamiento
-✨ Badges (Node.js, MySQL, Express)
